@@ -1286,6 +1286,7 @@ export type ExtensionMessage =
   | ProviderActionErrorMessage
   | RecentsLoadedMessage
   | LanguageChangedMessage
+  | ContinueInWorktreeProgressMessage
 
 // ============================================
 // Messages FROM webview TO extension
@@ -1891,6 +1892,29 @@ export interface RequestRecentsMessage {
   type: "requestRecents"
 }
 
+// Continue in Worktree: transfer sidebar session + git state to an isolated worktree
+export interface ContinueInWorktreeRequest {
+  type: "continueInWorktree"
+  sessionId: string
+}
+
+export type ContinueInWorktreeStatus =
+  | "capturing"
+  | "creating"
+  | "setup"
+  | "transferring"
+  | "forking"
+  | "done"
+  | "error"
+
+// Continue in Worktree: progress updates (extension → webview)
+export interface ContinueInWorktreeProgressMessage {
+  type: "continueInWorktreeProgress"
+  status: ContinueInWorktreeStatus
+  detail?: string
+  error?: string
+}
+
 export type WebviewMessage =
   | SendMessageRequest
   | AbortRequest
@@ -2002,6 +2026,7 @@ export type WebviewMessage =
   | SaveCustomProviderMessage
   | PersistRecentsRequest
   | RequestRecentsMessage
+  | ContinueInWorktreeRequest
 
 // ============================================
 // VS Code API type
