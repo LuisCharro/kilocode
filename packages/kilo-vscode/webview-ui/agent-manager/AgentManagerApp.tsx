@@ -2734,6 +2734,7 @@ const AgentManagerContent: Component = () => {
                   session.selectSession(id)
                 }}
                 readonly={readOnly()}
+                continueInWorktree={selection() === LOCAL}
               />
               <Show when={readOnly()}>
                 <div class="am-readonly-banner">
